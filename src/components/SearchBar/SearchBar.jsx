@@ -1,23 +1,34 @@
 
+import { useState } from "react";
 import styles from "./SearchBar.module.css";
 import { FaSearch } from "react-icons/fa";
 
-const SearchBar = ({onSubmit}) => {
-    return(
-<header>
-  <form className={styles.formWrap}>
-  <button className={styles.searchBtn} type="submit"><FaSearch /></button>
-    <input
-    className={styles.inpurStyle}
-      type="text"
-      autoComplete="off"
-      autoFocus
-      placeholder="Search images and photos"
-    />
-    
-  </form>
-</header>
-    );
+const SearchBar = ({ onSearch }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSearch(searchTerm);
+  };
+
+  return (
+    <header>
+      <form className={styles.formWrap} onSubmit={handleSubmit}>
+        <button className={styles.searchBtn} type="submit">
+          <FaSearch />
+        </button>
+        <input
+          className={styles.inputStyle}
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+      </form>
+    </header>
+  );
 };
 
 export default SearchBar;

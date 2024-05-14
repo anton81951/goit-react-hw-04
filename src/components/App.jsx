@@ -13,9 +13,7 @@ const App = () => {
     const fetchPictures = async () => {
       try {
         const response = await axios.get(
-          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
-            searchTerm
-          )}&client_id=jhQcplBUoglEL_QTQ7BQ096tyd_nHu5rVCFrZ0UPCbM`
+          `https://api.unsplash.com/search/photos?query=${searchTerm}&client_id=jhQcplBUoglEL_QTQ7BQ096tyd_nHu5rVCFrZ0UPCbM`
         );
 
         if (!response.data || !response.data.results) {

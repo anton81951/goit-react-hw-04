@@ -1,50 +1,49 @@
+import axios from "axios";
+import SearchBar from "./SearchBar/SearchBar";
+import ErrorMessage from "./ErrorMessage/ErrorMessage";
+import ImageGallery from "./ImageGallery/ImageGallery";
 import { useState, useEffect } from "react";
-import clsx from "clsx";
-import styles from "./App.module.css";
-import ContactForm from "./ContactForm/ContactForm";
-import ContactList from "./ContactList/ContactList";
-import SearchBox from "./SearchBox/SearchBox";
 
 const App = () => {
-  const [contacts, setContacts] = useState(() => {
-    const storedContacts = JSON.parse(localStorage.getItem("contacts"));
-    return storedContacts || [];
-  });
+  const [pictures, setPictures] = useState([]);
+  const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+    const fetchPictures = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.unsplash.com/search/photos?query=${encodeURIComponent(
+            searchTerm
+          )}&client_id=jhQcplBUoglEL_QTQ7BQ096tyd_nHu5rVCFrZ0UPCbM`
+        );
 
-  const [searchTerm, setSearchTerm] = useState("");
+        if (!response.data || !response.data.results) {
+          throw new Error("No data received from Unsplash");
+        }
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+        setPictures(response.data.results);
+        setError(null); // Reset error state if successful
+      } catch (error) {
+        console.error("Error fetching pictures from Unsplash:", error);
+        setError(error); // Set error state if there's an error
+      }
+    };
 
-  const handleAddContact = (newContact) => {
-    setContacts([...contacts, newContact]);
-  };
+    if (searchTerm) {
+      fetchPictures();
+    }
+  }, [searchTerm]);
 
-  const filteredContacts = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const deleteContact = (contactId) => {
-    setContacts((prevContacts) =>
-      prevContacts.filter((cont) => cont.id !== contactId)
-    );
+  const handleSearch = (searchTerm) => {
+    setSearchTerm(searchTerm);
   };
 
   return (
-    <div className={clsx(styles.general)}>
-      <h1 className={clsx(styles.title)}>Phone book</h1>
-      <ContactForm addNewContact={handleAddContact} />
-      <SearchBox value={searchTerm} onChange={handleSearchChange} />
-      <ContactList
-        contacts={filteredContacts}
-        searchTerm={searchTerm}
-        onDelete={deleteContact}
-      />
+    <div>
+      <SearchBar onSearch={handleSearch} />
+      {error && <ErrorMessage />}
+      <ImageGallery pictures={pictures} />
     </div>
   );
 };

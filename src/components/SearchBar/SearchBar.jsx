@@ -9,10 +9,10 @@ const SearchBar = ({ onSearch }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     onSearch(searchTerm);
+    setSearchTerm("");
   };
 
   return (
-    <header>
       <form className={styles.formWrap} onSubmit={handleSubmit}>
         <button className={styles.searchBtn} type="submit">
           <FaSearch />
@@ -27,7 +27,6 @@ const SearchBar = ({ onSearch }) => {
           onChange={(e) => setSearchTerm(e.target.value)}
         />
       </form>
-    </header>
   );
 };
 

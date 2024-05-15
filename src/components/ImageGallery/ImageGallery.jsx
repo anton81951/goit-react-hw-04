@@ -1,11 +1,12 @@
-import ImageCard from "../ImageCard/ImageCard";
+import ImageCard from '../ImageCard/ImageCard';
+import styles from './ImageGallery.module.css';
 
-const ImageGallery = ({ pictures }) => {
+const ImageGallery = ({ pictures, onImageClick }) => {
   return (
-    <ul>
+    <ul className={styles.galleryShape}>
       {pictures.map((picture) => (
-        <li key={picture.id}>
-          <ImageCard imageUrl={picture.urls.small} altText={picture.alt_description} />
+        <li key={picture.id} onClick={() => onImageClick(picture.urls.small)}>
+          <ImageCard autohor={picture.user.username} likes={picture.likes} imageUrl={picture.urls.small} altText={picture.alt_description} />
         </li>
       ))}
     </ul>

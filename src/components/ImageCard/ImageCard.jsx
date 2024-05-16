@@ -1,12 +1,12 @@
-import styles from "./ImageCard.module.css"
+import styles from "./ImageCard.module.css";
 
-const ImageCard = ({ imageUrl, altText, likes, autohor }) => {
+const ImageCard = ({ imageUrl, altText, likes, author, onImageClick }) => {
   return (
     <div>
-      <img  className={styles.cardFrame} src={imageUrl} alt={altText} />
-      <div  className={styles.cardInfo}>
+      <img className={styles.cardFrame} src={imageUrl} alt={altText} onClick={() => onImageClick(imageUrl)} />
+      <div className={styles.cardInfo}>
         <p>Likes: {likes}</p>
-        <p>Author: {autohor}</p>
+        <p>Author: {author}</p>
       </div>
     </div>
   );

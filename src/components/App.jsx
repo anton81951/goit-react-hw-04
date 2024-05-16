@@ -43,6 +43,7 @@ const App = () => {
   }, [page, searchTerm]);
 
   const handleSearch = async (topic) => {
+    
     setSearchTerm(topic);
     setPage(1);
     setPictures([]);

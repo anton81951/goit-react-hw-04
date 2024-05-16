@@ -13,7 +13,7 @@ const ErrorMessage = ({ message }) => {
         }
     }, [message]);
 
-    return null; // Render nothing in the DOM
+    return null;
 };
 
 export default ErrorMessage;

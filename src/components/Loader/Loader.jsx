@@ -8,7 +8,7 @@ const Loader = () => {
             radius={9}
             color="green"
             ariaLabel="Loading"
-            visible={true} // or you can remove this line if you want it always visible
+            visible={true}
         />
     );
 };
